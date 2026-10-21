@@ -152,6 +152,12 @@ export interface CaseView {
 }
 export type View = StepView | DiagnosisView | EscalateView | ResolvedView | ClarifyView | PartsView | OrderView | BriefView | AppliancesView | CaseView;
 
+/** First sentence of an instruction, for speech; the full text goes on the card. */
+function firstSentence(text: string): string {
+  const m = text.match(/^[^.!?]*[.!?]/);
+  return m ? m[0].trim() : text;
+}
+
 export class Engine {
   constructor(private store: Store, private householdId: string, private clock: Clock = systemClock) {}
 
@@ -306,7 +312,7 @@ export class Engine {
     };
     h.cases.push(c);
     this.store.save(h);
-    return this.currentStepView(h, c, `Opened a repair case for the ${this.applianceView(h, appliance).label}: ${tree.title}. Let's start with the most likely cause.`);
+    return this.currentStepView(h, c, `Let's troubleshoot the ${this.applianceView(h, appliance).label}, starting with the most likely cause.`);
   }
 
   private currentStepView(h: Household, c: RepairCase, lead: string): StepView {
@@ -326,7 +332,8 @@ export class Engine {
       total_steps_estimate: checks,
       step: { id: node.id, title: node.title, instruction: node.instruction, safety: node.safety, minutes: node.minutes },
       status: c.status,
-      summary: `${lead} Step ${stepNumber}: ${node.title}. ${node.safety ? node.safety + " " : ""}${node.instruction} Tell me "that fixed it", "no change", or what you found.`,
+      // Spoken text stays short (Alexa+ guidance: the card carries the detail); safety notes are always spoken.
+      summary: `${lead} Step ${stepNumber}: ${node.title.toLowerCase()}. ${node.safety ? node.safety + " " : ""}${firstSentence(node.instruction)} Then tell me what you found.`,
     };
   }
 
