@@ -19,6 +19,18 @@ Built for the **Build, Ship, Shape: Amazon Developer Hackathon 2026**, Alexa+ tr
 
 The LLM (Alexa+) owns language. HomeMend owns the safety-reviewed procedure and the state of where the household is in it.
 
+### Why not just ask Alexa+ to troubleshoot?
+
+An LLM can already talk a person through a dishwasher check. What it cannot do on its own is what HomeMend adds:
+
+- **Procedure you can trust**: hand-authored, safety-reviewed triage trees (power off before touching a hose, escalate on gas or burning smells) instead of improvised steps.
+- **Memory that outlives the conversation**: the case, the step you were on, the part you ordered and the day it arrives are server state, so "where were we?" works a week later from another device.
+- **Parts that fit *this* model**: fitment is checked against the registered model, not guessed from the brand.
+- **Purchases that need a confirm turn**: `order_part` quotes first and refuses to place an order without `confirm: true`, which the tool description tells the host explicitly.
+- **A preventive loop**: a fix that was really a maintenance item reschedules that item; the brief surfaces what is due.
+
+**Honest framing**: HomeMend is a *context-aware add-on*, not an autonomous agent. The server is a deterministic state machine plus persistence; it never plans on its own or calls other services. The agent is Alexa+ (in the simulator, a rule-based planner stands in for it, see `sim/src/planner.ts`). That division is deliberate and is what the Alexa+ add-on guidance recommends.
+
 ## Architecture
 
 ```

@@ -95,7 +95,14 @@ export function plan(utteranceRaw: string, s: PlannerState): Plan {
     return { kind: "tool", name: "find_parts", args: { appliance: appl[1], part_type: /water/.test(lower) ? "water_filter" : /air/.test(lower) ? "air_filter" : undefined }, note: "parts for appliance" };
 
   // --- fallbacks ---
-  if (/\b(hi|hello|hey|good (morning|evening|afternoon))\b/.test(lower)) return { kind: "say", text: "Hi. I can troubleshoot appliance problems step by step, find and order the right parts, and keep track of home maintenance. What's going on?" };
+  if (/^(hi|hello|hey|good (morning|evening|afternoon))\b/.test(lower)) return { kind: "say", text: "Hi. I can troubleshoot appliance problems step by step, find and order the right parts, and keep track of home maintenance. What's going on?" };
+  // Judges type their own sentences. If an appliance is named at all, open (or resume) a case with the whole
+  // sentence as the symptom: the server's tree matcher and resume logic do the rest, and a wrong guess is cheap
+  // to correct ("skip" / "that wasn't it"). Alexa+ would make this call from the tool descriptions.
+  if (appl) return { kind: "tool", name: "start_repair_case", args: { appliance: appl[1], symptom: u }, note: "appliance mentioned → start/resume case" };
+  if (PROBLEM_RE.test(lower) && !inCase)
+    return { kind: "say", text: "Which appliance is that? I can help with the dishwasher, washer, dryer, fridge, oven, garbage disposal, water heater, air conditioner, or router." };
+  if (/^(yes|yeah|yep|sure|ok|okay|no|nope)\b/.test(lower) && inCase) return { kind: "tool", name: "get_case", args: { case_id: s.caseId }, note: "bare yes/no in a case → show where we are" };
   if (/\b(thanks|thank you|great|awesome|perfect)\b/.test(lower)) return { kind: "say", text: "You're welcome. I'll keep an eye on things and check in when there's something to do." };
   if (/\b(help|what can you do)\b/.test(lower)) return { kind: "say", text: "Tell me what's wrong, like 'the dryer runs but doesn't heat'. I'll walk you through safe checks one at a time, diagnose it, find parts that fit your model, and follow up when they arrive. You can also ask what needs attention at home." };
   return { kind: "say", text: "I'm not sure how to help with that in HomeMend. Describe an appliance problem, ask what needs attention at home, or ask about a part." };
