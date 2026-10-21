@@ -1,0 +1,11 @@
+{
+  "name": "homemend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -C server dev",
+    "build": "pnpm -C server build && pnpm -C sim build",
+    "test": "pnpm -C server test"
+  }
+}

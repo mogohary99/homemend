@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-ui/
+data/
+*.log
+.env
+.DS_Store
+sim/dist/
