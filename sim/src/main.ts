@@ -269,12 +269,13 @@ const SUGGESTIONS: Record<string, string[]> = {
   diagnosis: ["Show me the parts", "What did we try?"],
   parts: ["Order the first one", "Order the cheapest one"],
   order: ["Yes, place the order", "Not now"],
+  placed: ["What needs attention at home?", "Where were we with the dishwasher?"],
   brief: ["Where were we with the dishwasher?", "The dishwasher isn't draining", "I replaced the fridge water filter"],
   case: ["I installed it and it works", "It's still broken"],
   resolved: ["What else needs attention?", "Thanks"],
 };
 function refreshChips() {
-  const kind = state.pendingQuote ? "order" : state.lastKind ?? "start";
+  const kind = state.pendingQuote ? "order" : state.lastKind === "order" ? "placed" : state.lastKind ?? "start";
   const list = SUGGESTIONS[kind] ?? SUGGESTIONS.start;
   $("chips").innerHTML = "";
   for (const s of list) {

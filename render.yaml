@@ -1,0 +1,16 @@
+# Render blueprint: free web service. Note: free instances sleep after inactivity and wake on the next
+# request (first MCP call may take ~30 s). Persistent disks are not available on the free plan, so the
+# demo household resets on redeploy; that is acceptable for judging (seed data is recreated on demand).
+services:
+  - type: web
+    name: homemend
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PUBLIC_URL
+        sync: false   # set to https://<service>.onrender.com after first deploy
+      - key: ALLOWED_ORIGINS
+        value: https://mogohary99.github.io
+      - key: HOMEMEND_DATA_DIR
+        value: /tmp/homemend-data
