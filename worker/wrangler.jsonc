@@ -1,0 +1,29 @@
+{
+  // HomeMend on Cloudflare Workers (Free plan): always-on HTTPS, D1 (SQLite) persistence, static simulator.
+  // Local dev needs no account: `pnpm dev` runs workerd + a local D1 file under .wrangler/.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "homemend",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // The MCP App view (built by `pnpm -C ../server build:ui`) is bundled as a string.
+  "rules": [{ "type": "Text", "globs": ["**/*.html"], "fallthrough": true }],
+  // Static assets (the Alexa+ simulator at /sim/) are served before the Worker runs; free and unlimited.
+  "assets": { "directory": "./public" },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "homemend",
+      // Replaced by `wrangler d1 create homemend` output at deploy time; any value works for local dev.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    // Demo-only "advance a day" clock header; set to "false" to disable in a strict deployment.
+    "HOMEMEND_ALLOW_DEMO_CLOCK": "true",
+    // Extra browser origins allowed to call /mcp (comma-separated). The Worker's own origin is always allowed.
+    "ALLOWED_ORIGINS": ""
+  },
+  "observability": { "enabled": true }
+}

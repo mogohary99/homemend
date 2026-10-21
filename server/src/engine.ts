@@ -6,7 +6,7 @@
  * and the maintenance schedule. Everything is persisted per household so a conversation can be
  * resumed days later from any Alexa+ device.
  */
-import { randomUUID } from "node:crypto";
+const randomUUID = () => crypto.randomUUID();
 import type { Appliance, ApplianceType, Household, Order, RepairCase, Store, FollowUp, MaintenanceTask } from "./store.js";
 import { APPLIANCE_LABEL, DEFAULT_MAINTENANCE, detectApplianceType, getTree, pickTree, type CheckNode, type TreeNode } from "./knowledge.js";
 import { fitment, getPart, partsFor, type Part } from "./catalog.js";

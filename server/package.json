@@ -9,7 +9,8 @@
     "build:ui": "vite build",
     "start": "node dist/main.js",
     "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.ui.json"
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.ui.json",
+    "smoke": "tsx scripts/smoke.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/client": "^2.3.1",

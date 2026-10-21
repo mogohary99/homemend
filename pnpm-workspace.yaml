@@ -1,3 +1,8 @@
 packages:
   - server
   - sim
+  - worker
+# Native build scripts pnpm may run (esbuild binary check, workerd binary for wrangler dev).
+allowBuilds:
+  esbuild: true
+  workerd: true
