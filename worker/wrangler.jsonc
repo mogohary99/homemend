@@ -15,7 +15,7 @@
       "binding": "DB",
       "database_name": "homemend",
       // Replaced by `wrangler d1 create homemend` output at deploy time; any value works for local dev.
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "b3aa704c-19b6-4434-ac3f-050cece87107",
       "migrations_dir": "migrations"
     }
   ],

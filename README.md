@@ -6,6 +6,8 @@ HomeMend is a **self-hosted MCP server** (Model Context Protocol, spec **2025-11
 
 Built for the **Build, Ship, Shape: Amazon Developer Hackathon 2026**, Alexa+ track.
 
+**Live:** `https://homemend.strongkit.workers.dev/mcp` (Cloudflare Workers + D1, up through judging) · simulator at `https://homemend.strongkit.workers.dev/sim/` · `docs/deploy.md` explains the hosting.
+
 ## Why it is not a chatbot
 
 | What Alexa+ judges called *creative* | HomeMend |

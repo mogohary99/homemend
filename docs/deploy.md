@@ -39,7 +39,9 @@ Static simulator assets are served by Workers Static Assets (free and unlimited)
    PATH=/opt/homebrew/opt/node@22/bin:$PATH pnpm exec wrangler login     # wrangler needs Node ≥ 22
    ```
 
-3. Create the database and paste its id into `wrangler.jsonc` (`database_id`):
+3. Create the database and paste its id into `wrangler.jsonc` (`database_id`). The id committed in
+   `wrangler.jsonc` belongs to the current deployment at `https://homemend.strongkit.workers.dev`; a new
+   account needs its own:
 
    ```sh
    pnpm exec wrangler d1 create homemend
@@ -51,16 +53,16 @@ Static simulator assets are served by Workers Static Assets (free and unlimited)
    pnpm deploy
    ```
 
-   The output prints the URL, e.g. `https://homemend.<account>.workers.dev`.
+   The output prints the URL, e.g. `https://homemend.strongkit.workers.dev`.
 
 5. Verify from anywhere:
 
    ```sh
-   pnpm -C ../server smoke https://homemend.<account>.workers.dev/mcp
-   node ../../mcp-http-conformance/src/cli.js https://homemend.<account>.workers.dev/mcp
+   pnpm -C ../server smoke https://homemend.strongkit.workers.dev/mcp
+   node ../../mcp-http-conformance/src/cli.js https://homemend.strongkit.workers.dev/mcp
    ```
 
-   Open `https://homemend.<account>.workers.dev/sim/` for the Alexa+ simulator.
+   Open `https://homemend.strongkit.workers.dev/sim/` for the Alexa+ simulator.
 
 ### Optional hardening
 
